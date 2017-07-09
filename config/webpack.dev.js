@@ -225,7 +225,7 @@ module.exports = function (options) {
         // if you're using Docker you may need this
         // aggregateTimeout: 300,
         // poll: 1000,
-        ignored: /node_modules/
+        ignored: [/node_modules/, "./src/server/"]
       },
       /**
       * Here you can access the Express app object and add your own custom middleware to it.

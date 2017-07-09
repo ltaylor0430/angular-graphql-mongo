@@ -20,7 +20,7 @@
     ],
     "types": [
       "hammerjs",
-      "jasmine",
+     // "jasmine",
       "node",
       "source-map",
       "uglify-js",
