@@ -2,8 +2,9 @@
 
 const TechData = `
 interface TechData {
-  id:ID!
+  _id: String
   name: String
+  uid: String
   facets: [Facet]
 
 }`;

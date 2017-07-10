@@ -1,8 +1,9 @@
 // facet.js
 const Facet = `
 type Facet {
-  id:String!
-  count: Int!
+  _id:String!
+  totalCount: Int!
+  distinctCount: Int!
 
 }`;
 export default () => [Facet];

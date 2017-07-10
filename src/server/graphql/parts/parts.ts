@@ -2,13 +2,17 @@
 import Techorder from './../techorder/techorder';
 import TechData from './../techdata/techdata';
 const Part = `
+
 type Part implements TechData {
-  id:ID!
+  _id: String!
+  uid: String
   name: String
+  nsn: String
   description: String
   partindicies: String
-  whereused: [Techorder]
+  whereused: PartsUnion
   facets: [Facet]
-
-}`;
+}
+union PartsUnion = Techorder | Figure
+`;
 export default () => [Part, Techorder, TechData];

@@ -2,17 +2,19 @@
 import Part from './../parts/parts';
 import Facet from './../facet/facet';
 import TechData from './../techdata/techdata';
+import Figure from './../figures/figures';
 export const Techorder = `
 type Query {
  techorders: [Techorder],
  techorder(id: ID!): Techorder,
- parts: [Part],
- part(id:ID!): Part,
- facets(q: String!):[TechData]
+ partList: [Part],
+ part(uid:String!): Part,
+ facets(q: String!):[Facet]
 }
 
 type Techorder implements TechData {
-  id:ID!
+  _id: String
+  uid: String
   name: String
   description: String
   publicationDate: String
@@ -21,4 +23,4 @@ type Techorder implements TechData {
   facets: [Facet]
 
 }`;
-export default () => [Techorder, Part, Facet, TechData];
+export default () => [Techorder, Part, Figure, Facet, TechData];

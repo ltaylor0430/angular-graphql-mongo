@@ -20,6 +20,7 @@
     ],
     "types": [
       "hammerjs",
+      "mongodb",
       "node"
     ]
   },

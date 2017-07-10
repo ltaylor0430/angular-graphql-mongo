@@ -9,7 +9,7 @@ const logger = { log: (e) => console.log(e) };
 
 const jsSchema = makeExecutableSchema({
   typeDefs: schemaConfiguration.typeDefs,
-  resolvers: schemaConfiguration.resolvers,
+  resolvers: schemaConfiguration.resolver,
   logger
 });
 /*
@@ -26,6 +26,12 @@ app.use('/graphql', graphqlHTTP({
   schema: jsSchema,
   rootValue: root,
   graphiql: true,
+  formatError: (error) => ({
+  message: error.message,
+  locations: error.locations,
+  stack: error.stack,
+  path: error.path
+})
 }));
 
 app.listen(4000, () => console.log('Now browse to localhost:4000/graphql'));
