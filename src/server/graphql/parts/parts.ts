@@ -7,12 +7,16 @@ type Part implements TechData {
   _id: String!
   uid: String
   name: String
+  cage: String
   nsn: String
+  ancestorIds: [String]
+  referenceId: String
   description: String
   partindicies: String
-  whereused: PartsUnion
+  whereused: [PartsUnion]
   facets: [Facet]
 }
-union PartsUnion = Techorder | Figure
+
+union PartsUnion =  Techorder | Figure
 `;
 export default () => [Part, Techorder, TechData];

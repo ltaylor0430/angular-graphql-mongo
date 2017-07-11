@@ -8,6 +8,7 @@ type Figure implements TechData {
   _id: String!
   uid: String
   name: String
+  referenceId: String
   figureNumber: String
   description: String
   whereused: Techorder

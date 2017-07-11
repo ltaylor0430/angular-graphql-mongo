@@ -8,7 +8,7 @@ type Query {
  techorders: [Techorder],
  techorder(id: ID!): Techorder,
  partList: [Part],
- part(uid:String!): Part,
+ part(uid:String!): [Part],
  facets(q: String!):[Facet]
 }
 

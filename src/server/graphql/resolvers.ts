@@ -14,9 +14,16 @@ export class Resolvers {
     });
 
   }
+  public findTechorder(arg: { _id: string } = null): Promise<any> {
+    return this.db.collection('techdata').findOne(arg);
+  }
+  public findTechorders(): Promise<any> {
 
-  public async getFacetCounts(queryObject: any) {
-    return await this.db.collection('techdata').aggregate([
+    return this.db.collection('techdata').find({ parent: 'Techorder' }).toArray();
+  }
+
+  public getFacetCounts(queryObject: any) {
+    return this.db.collection('techdata').aggregate([
       { $match: { uid: { $ne: null } } },
       // Count all occurrences
       {
@@ -41,22 +48,45 @@ export class Resolvers {
 
     ]).toArray();
   }
-  public async findPartWhereUsed(arg: { uid: string }) {
-    return await this.db.collection('techdata').aggregate([
-      { $match: { $and: [ { uid: { $ne: null } }, arg]}},
+  public findPartWhereUsed(arg: { uid: string }) {
+    return this.db.collection('techdata').aggregate([
+      // Perform match aka having clause
+      { $match: { $and: [{ uid: { $ne: null } }, arg] } },
+      // Perform lookup to get reference to all parent items
       {
         $graphLookup: {
           from: 'techdata',
-          startWith: arg.uid,
-          connectFromField: 'ancestorIds',
-          connectToField: 'uid',
+          startWith: '$referenceId',
+          connectFromField: 'referenceId',
+          connectToField: '_id',
           as: 'whereused'
+        }
+      },
+      // Group by uid since _id will always be unique
+      {
+        $group: {
+          _id: '$uid',
+          foundIn: { $addToSet: '$whereused' }
+        }
+      },
+      // Reduce to a single array
+      {
+        $project: {
+          whereused: {
+            $reduce: {
+              input: '$foundIn',
+              initialValue: [],
+              in:
+              { $setUnion: ['$$value', '$$this'] }
+            }
+          }
         }
       }]).toArray();
   }
-  public async findTechorders(): Promise<any> {
-    return await this.db.collection('techdata').find().toArray();
+  public findParts(): Promise<any> {
+    return this.db.collection('techdata').find({ parent: 'Parts' }).toArray();
   }
+
   public getResolverMap() {
     return {
       TechData: {
@@ -67,20 +97,25 @@ export class Resolvers {
           if (obj.publicationDate) {
             return 'Techorder';
           }
-          if (obj.nsn) {
+          if (obj.partindicies) {
             return 'Part';
           }
           return null;
         }
       },
+
       PartsUnion: {
         __resolveType: (obj, context, info) => {
           console.log('parts union');
-          if (obj.figureNumber) {
+          console.log(obj.parent);
+          if (obj.parent === 'Figures') {
             return 'Figure';
           }
-          if (obj.publicationDate) {
+          if (obj.parent === 'Techorder') {
             return 'Techorder';
+          }
+          if (obj.parent === 'Parts') {
+            return 'Part';
           }
           return null;
         }
@@ -92,7 +127,16 @@ export class Resolvers {
         },
         part: (obj, args, context, info) => {
           return this.findPartWhereUsed({ uid: args.uid });
-        }
+        },
+        partList: (obj, args, context, info) => {
+          return this.findParts();
+        },
+        techorder: (obj, args, context, info) => {
+          return this.findTechorder({ _id: args.id });
+        },
+        techorders: (obj, args, context, info) => {
+          return this.findTechorders();
+        },
       }
     };
   }
