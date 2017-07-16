@@ -19,6 +19,8 @@ import { AppState } from './app.service';
     './app.component.css'
   ],
   template: `
+  <md-toolbar class="mainToolbar" color="primary">
+    <span>Angular GraphQL</span>
     <nav>
       <a [routerLink]=" ['./'] "
         routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
@@ -41,14 +43,11 @@ import { AppState } from './app.service';
         About
       </a>
     </nav>
-
+  </md-toolbar>
     <main>
       <router-outlet></router-outlet>
     </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
+<footer>
       <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
       <div>
         <a [href]="url">

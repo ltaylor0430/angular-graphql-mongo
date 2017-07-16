@@ -1,6 +1,10 @@
+import { MaterialCustomModule } from './app.material-custom.module';
+import { TechorderModule } from './techorder/techorder.module';
+import { TechorderComponent } from './techorder/techorder.component';
 import { FiguresComponent } from './figures/figures.component';
 
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
@@ -37,6 +41,7 @@ import '../styles/headings.css';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
+  BrowserAnimationsModule,
   AppState
 ];
 
@@ -55,8 +60,6 @@ interface StoreType {
     AppComponent,
     HomeComponent,
     FiguresComponent,
-    TechorderListComponent,
-    TechorderItemComponent,
     NoContentComponent
   ],
   /**
@@ -66,7 +69,9 @@ interface StoreType {
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    MaterialCustomModule,
+    TechorderModule
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

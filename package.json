@@ -41,11 +41,13 @@
   "license": "ISC",
   "dependencies": {
     "@angular/animations": "~4.2.6",
+    "@angular/cdk": "^2.0.0-beta.8",
     "@angular/common": "~4.2.6",
     "@angular/compiler": "~4.2.6",
     "@angular/core": "~4.2.6",
     "@angular/forms": "~4.2.6",
     "@angular/http": "~4.2.6",
+    "@angular/material": "^2.0.0-beta.8",
     "@angular/platform-browser": "~4.2.6",
     "@angular/platform-browser-dynamic": "~4.2.6",
     "@angular/platform-server": "~4.2.6",
@@ -117,7 +119,6 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-
     "setupTestFrameworkScriptFile": "<rootDir>/config/jest.config.ts",
     "collectCoverageFrom": [
       "src/app/**/*.ts",
@@ -141,6 +142,5 @@
       "(.*)": "<rootDir>/src/$1"
     },
     "testRegex": "(/__tests__/.*|\\.(spec))\\.(ts|js)$"
-
   }
 }

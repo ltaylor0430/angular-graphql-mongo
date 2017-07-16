@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noEmit": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "strictNullChecks": false,
+    "lib": [
+      "dom",
+      "es6"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "hammerjs",
+      "jest",
+      "node",
+      "source-map",
+      "uglify-js",
+      "webpack"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}
