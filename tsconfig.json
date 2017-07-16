@@ -20,6 +20,7 @@
     ],
     "types": [
       "hammerjs",
+      "jest",
      // "jasmine",
       "node",
       "source-map",
@@ -31,6 +32,7 @@
     "node_modules",
     "dist"
   ],
+
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
     "useWebpackText": true

@@ -4,29 +4,33 @@
   "description": "Angular Starter With Jest, Webpack, and More.",
   "main": "index.js",
   "scripts": {
-    "build:aot:prod": "npm run clean:dist && npm run clean:aot && cross-env BUILD_AOT=1 npm run webpack -- --config config/webpack.prod.js  --progress --profile --bail",
-    "build:aot": "npm run build:aot:prod",
-    "build:dev": "npm run clean:dist && npm run webpack -- --config config/webpack.dev.js --progress --profile",
-    "clean:dll": "npm run rimraf -- dll",
-    "clean:aot": "npm run rimraf -- compiled",
-    "clean:dist": "npm run rimraf -- dist",
+    "build:aot:prod": "yarn run clean:dist && npm run clean:aot && cross-env BUILD_AOT=1 npm run webpack -- --config config/webpack.prod.js  --progress --profile --bail",
+    "build:aot": "yarn run build:aot:prod",
+    "build:dev": "yarn run clean:dist && npm run webpack -- --config config/webpack.dev.js --progress --profile",
+    "clean:dll": "yarn run rimraf -- dll",
+    "clean:aot": "yarn run rimraf -- compiled",
+    "clean:dist": "yarn run rimraf -- dist",
+    "clean:build": "yarn run rimraf -- build",
     "clean:install": "npm set progress=false && npm install",
     "clean": "npm cache clean --force && npm run rimraf -- node_modules doc coverage dist compiled dll",
+    "coverage": "jest --coverage",
     "node": "node",
-    "server:dev:hmr": "npm run server:dev -- --inline --hot",
-    "server:dev": "npm run webpack-dev-server -- --config config/webpack.dev.js --open --progress --profile --watch --content-base src/",
+    "server:dev:hmr": "yarn run server:dev -- --inline --hot",
+    "server:dev": "yarn run webpack-dev-server -- --config config/webpack.dev.js --open --progress --profile --watch --content-base src/",
     "server:prod": "http-server dist -c-1 --cors",
     "server:prod:ci": "http-server dist -p 3000 -c-1 --cors",
-    "gql": "webpack --config config/webpack.server.js --watch",
+    "gql": "yarn run clean:build && webpack --config config/webpack.server.js --watch",
+    "rimraf": "rimraf",
     "start": "concurrently -k --kill-others-on-fail -c \"red.bgBlack,cyan.bgBlack\" --names \"NG,EXPRESS\" \"npm run server:dev\" \"npm run gql\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "tslint": "tslint",
     "typedoc": "typedoc",
-    "watch:dev:hmr": "npm run watch:dev -- --hot",
-    "watch:dev": "npm run build:dev -- --watch",
-    "watch:prod": "npm run build:prod -- --watch",
-    "watch:test": "npm run test -- --auto-watch --no-single-run",
-    "watch": "npm run watch:dev",
+    "watch:dev:hmr": "yarn run watch:dev -- --hot",
+    "watch:dev": "yarn run build:dev -- --watch",
+    "watch:prod": "yarn run build:prod -- --watch",
+    "watch:test": "yarn run test -- --watch",
+    "watch:coverage": "npm run coverage -- --watch",
+    "watch": "yarn run watch:dev",
     "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
   },
@@ -56,8 +60,10 @@
     "zone.js": "0.8.5"
   },
   "devDependencies": {
+    "@angular/cli": "^1.2.1",
     "@angular/compiler-cli": "^4.2.6",
     "@types/hammerjs": "^2.0.34",
+    "@types/jest": "^20.0.2",
     "@types/mongodb": "^2.2.7",
     "@types/node": "^7.0.13",
     "@types/source-map": "^0.5.0",
@@ -78,6 +84,8 @@
     "graphql-tools": "^1.1.0",
     "html-webpack-plugin": "^2.29.0",
     "inline-manifest-webpack-plugin": "^3.0.1",
+    "jest": "^20.0.4",
+    "jest-preset-angular": "^2.0.5",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.30",
     "ng-router-loader": "^2.1.0",
@@ -106,5 +114,33 @@
   "engines": {
     "node": ">= 4.2.1",
     "npm": ">= 3"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jest.config.ts",
+    "collectCoverageFrom": [
+      "src/app/**/*.ts",
+      "src/server/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 50,
+        "branches": 50,
+        "functions": 50,
+        "lines": 100
+      }
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.spec.json"
+      },
+      "__TRANSFORM_HTML__": true
+    },
+    "moduleNameMapper": {
+      "(.*)": "<rootDir>/src/$1"
+    },
+    "testRegex": "(/__tests__/.*|\\.(spec))\\.(ts|js)$"
+
   }
 }

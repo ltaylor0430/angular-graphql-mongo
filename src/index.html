@@ -32,11 +32,24 @@
 
   <!-- CSS will be injected by webpack here -->
   <!-- Preload link tags will be injected by webpack here -->
+<style>
+    .tftable span[value].red {
+      content:'*';
+      color:red;
+    }
 
+  </style>
 </head>
 
 <body>
 
+
+    <h1>Hello Plunker!</h1>
+    <table>
+      <tr>
+        <td class="tftable">testing <span class="red"></span></td>
+      </tr>
+    </table>
   <app>
     Loading...
   </app>

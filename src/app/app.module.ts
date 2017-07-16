@@ -1,3 +1,4 @@
+import { FiguresComponent } from './figures/figures.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +25,9 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { NoContentComponent } from './no-content';
+import { TechorderItemComponent } from './techorder-list/+techorder-item/techorder-item.component';
+import { TechorderListComponent } from './techorder-list/techorder-list.component';
+
 import { HomeComponent } from './home';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
@@ -36,11 +40,11 @@ const APP_PROVIDERS = [
   AppState
 ];
 
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
+interface StoreType {
+  state: InternalStateType;
+  restoreInputValues: () => void;
+  disposeOldHosts: () => void;
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -50,6 +54,9 @@ type StoreType = {
   declarations: [
     AppComponent,
     HomeComponent,
+    FiguresComponent,
+    TechorderListComponent,
+    TechorderItemComponent,
     NoContentComponent
   ],
   /**
