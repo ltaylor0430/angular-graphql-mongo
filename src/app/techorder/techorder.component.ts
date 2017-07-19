@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { TechorderModel } from "./techdata-model";
+import { TechorderModel } from './techdata-model';
 
 @Component({
   selector: 'techorder',

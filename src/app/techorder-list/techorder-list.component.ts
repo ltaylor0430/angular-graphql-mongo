@@ -10,12 +10,11 @@ import { EventEmitter } from 'events';
   styleUrls: ['./techorder-list.scss'],
   template
 })
-export class TechorderListComponent implements OnInit {
+export class TechorderListComponent {
   @Input() public techorderItems: Observable<any>;
   @Output() public onSelectedItem: EventEmitter = new EventEmitter();
 
-  public ngOnInit(): void {
-    console.log('Techorder List Component');
+  public selectedItem($event: any) {
+    this.onSelectedItem.emit($event);
   }
-
 }

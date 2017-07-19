@@ -1,3 +1,4 @@
+import { TechorderService } from './techorder.service';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -27,20 +28,17 @@ import { TechorderModel } from './techdata-model';
 export class RouterStub {
   public navigate(url: any[], params: any) { return url; }
 }
-describe(`Techorder`, () => {
-  let comp: TechorderComponent;
-  let fixture: ComponentFixture<TechorderComponent>;
-
+describe(`Techorder Service`, () => {
+  let techService: TechorderService;
   /**
    * async beforeEach.
    */
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TechorderComponent],
-      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         BaseRequestOptions,
         MockBackend,
+        TechorderService,
         {
           provide: Http,
           useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
@@ -62,35 +60,24 @@ describe(`Techorder`, () => {
   /**
    * Synchronous beforeEach.
    */
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TechorderComponent);
-    comp = fixture.componentInstance;
+  beforeEach(inject([TechorderService], (ts: TechorderService) => {
+    techService = ts;
+  }));
 
-    /**
-     * Trigger initial data binding.
-     */
-    fixture.detectChanges();
-  });
-  test('component should exist', () => {
-    expect(comp).toBeDefined();
+  test('service should exist', () => {
+    expect(techService).toBeDefined();
   });
 
-  test('selectedItem should navigate to Figures',
-    inject([Router], (router: Router) => {
-      const model: TechorderModel = {
-        _id: '12345',
-        uid: 'a!421df0',
-        publicationDate: '10/10/2000',
-        changeDate: '10/10/2018',
-        name: 'TO-12345',
-        description: 'A test model'
-      };
-
-      const spy = spyOn(router, 'navigate');
-      // select item
-      comp.onSelectedItem(model);
-      const navArgs = spy.calls.first().args[0];
-      const id = model._id;
-      expect(navArgs).toEqual(['/figures', id]);
-    }));
+  test('service should return techorder list ', () => {
+    expect(techService.getTechorders).toBeDefined();
+  });
+  test('service should return parts list ', () => {
+    expect(techService.getParts).toBeDefined();
+  });
+  test('service should return figures list ', () => {
+    expect(techService.getFigures).toBeDefined();
+  });
+  test('service should return parts found in list ', () => {
+    expect(techService.getPartsFoundIn).toBeDefined();
+  });
 });

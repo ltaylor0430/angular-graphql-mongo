@@ -24,17 +24,19 @@ import { MockBackend } from '@angular/http/testing';
  */
 import { TechorderListComponent } from './techorder-list.component';
 import { TechorderModel } from '../techorder/techdata-model';
+import { fakeAsync } from "@angular/core/testing";
+import { tick } from "@angular/core/testing";
 
 describe(`Techorder List`, () => {
   let comp: TechorderListComponent;
   let fixture: ComponentFixture<TechorderListComponent>;
-
+  let model: TechorderModel;
   /**
    * async beforeEach.
    */
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TechorderListComponent, TechorderItemComponent],
+      declarations: [TechorderListComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         BaseRequestOptions,
@@ -60,7 +62,16 @@ describe(`Techorder List`, () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TechorderListComponent);
     comp = fixture.componentInstance;
-    comp.techorderItems = Observable.of([1, 2, 3, 4, 5]);
+
+    model = {
+      _id: '12345',
+      uid: 'a!421df0',
+      name: 'TO-12345',
+      publicationDate: '10 January 2018',
+      changeDate: '10/10/2018',
+      description: 'A test model'
+    };
+    comp.techorderItems = Observable.of([model]);
     /**
      * Trigger initial data binding.
      */
@@ -75,31 +86,31 @@ describe(`Techorder List`, () => {
 
     expect(techorderItem).not.toBeNull();
   });
-  test('techorder list to have Inputs  of techorder items', () => {
+  // sychronous test
+  test('techorder list to have Inputs  of techorder items', fakeAsync( () => {
 
     const techorderItems = comp.techorderItems;
+    let actual: number = -1;
     expect(techorderItems).toBeDefined();
-  });
+    techorderItems.count().subscribe((results) => actual = results);
+    tick(2);
+    expect(actual).toBeGreaterThan(0);
+  }));
 
   test('should have a selectedItem event handler', () => {
     expect(comp.onSelectedItem).toBeDefined();
   });
 
-  test('selectedItem should navigate to Figures',
-    inject([Router], (router: Router) => {
-      const model: TechorderModel = {
-        _id: '12345',
-        uid: 'a!421df0',
-        name: 'TO-12345',
-        description: 'A test model'
-      };
+  test('should emit selected Item to Techorder Component', () => {
+    spyOn(comp.onSelectedItem, 'emit');
+    const nativeElement = fixture.nativeElement;
+    const techorderItem = nativeElement.querySelector('techorder-item');
+    console.log(techorderItem);
+    comp.selectedItem(model);
+    techorderItem.dispatchEvent(new Event('click'));
 
-      const spy = spyOn(router, 'navigate');
-      // select item
-      console.log('spy', spy);
-      comp.onSelectedItem(model);
-      const navArgs = spy.calls.first().args[0];
-      const id = model._id;
-      expect(navArgs).toEqual(['/figures', id]);
-    }));
+    fixture.detectChanges();
+
+    expect(comp.onSelectedItem.emit).toBeCalledWith(model);
+  });
 });

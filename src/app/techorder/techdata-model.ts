@@ -14,6 +14,8 @@ interface Facets {
 
 interface TechorderModel extends Techdata {
   description: string;
+  publicationDate: string;
+  changeDate: string;
   parts?: PartsModel[];
 }
 

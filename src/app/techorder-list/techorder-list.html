@@ -1,6 +1,6 @@
 <div class="list-container">
   <div  *ngFor="let item of techorderItems | async">
-  <techorder-item></techorder-item>
+  <techorder-item (onSelectedItem)="selectedItem($event)"></techorder-item>
   </div>
 </div>
 q
